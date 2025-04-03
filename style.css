@@ -190,4 +190,20 @@
   .description li {
     margin-bottom: 0.8rem;
   }
+  .produits a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+  }
+  .produits a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+  
+  .produits a:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+  }
   
