@@ -110,7 +110,7 @@ function updateTotal() {
     totalPoids += poids * qty;
   });
 
-  const fraisLivraison = total >= 200 ? 0 : totalPoids * 0.1;
+  const fraisLivraison = total >= 300 ? 0 : total * 0.10;
 
   totalPrix.textContent = `💰 Total estimé : ${total.toFixed(2)} €`;
   livraison.textContent = fraisLivraison === 0
