@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demander un devis - Matériel musculation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="devis.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Demander un devis</h1>
+    <p>Sélectionnez ce que vous souhaitez recevoir pour obtenir une estimation</p>
+  </header>
+
+  <nav>
+    <a href="index.html">← Retour à l'accueil</a>
+  </nav>
+
+  <section class="form-section">
+    <form id="commandeForm" action="https://formspree.io/f/myzendnq" method="POST">
+      <label for="nom">Nom complet</label>
+      <input type="text" id="nom" name="nom" required />
+
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="telephone">Téléphone</label>
+      <input type="tel" id="telephone" name="telephone" required />
+
+      <label for="ville">Ville de livraison</label>
+      <input type="text" id="ville" name="ville" required />
+
+      <h2>Produits souhaités</h2>
+      <table id="commandeTable">
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Poids (kg)</th>
+            <th>Quantité</th>
+            <th>Sous-total (€)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="commandeBody">
+          <!-- Lignes dynamiques -->
+        </tbody>
+      </table>
+      <button type="button" class="btn add-line">+ Ajouter un produit</button>
+
+      <input type="hidden" name="details_commande" id="detailsHidden" />
+
+      <div class="results">
+        <p id="totalPrix">💰 Total estimé : 0 €</p>
+        <p id="livraison">🚚 Livraison estimée : 0 €</p>
+      </div>
+
+      <button type="submit" class="submit-btn">Envoyer la demande</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Nathan | Matériel de musculation - Haute-Savoie</p>
+  </footer>
+</body>
+</html>
