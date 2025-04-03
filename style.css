@@ -190,11 +190,7 @@
   .description li {
     margin-bottom: 0.8rem;
   }
-  .produits a {
-    color: inherit;
-    text-decoration: none;
-    display: block;
-  }
+
   .produits a {
     color: inherit;
     text-decoration: none;
