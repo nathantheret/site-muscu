@@ -9,12 +9,18 @@
   <script defer src="devis.js"></script>
 </head>
 <body>
-  <section class="form-section">
+  <header>
     <h1>Demande de devis</h1>
-    <p>La livraison est de 10 % du prix total, offerte dès 300 € d’achat.</p>
+    <p>Un devis simple et rapide pour du matériel de qualité</p>
+  </header>
 
+  <nav>
+    <a href="index.html">← Retour à l'accueil</a>
+  </nav>
+
+  <section class="form-section">
     <form id="commandeForm">
-      <label for="nom">Nom</label>
+      <label for="nom">Nom et prénom</label>
       <input type="text" id="nom" name="nom" required />
 
       <label for="email">Email</label>
@@ -27,7 +33,10 @@
       <input type="text" id="ville" name="ville" required />
 
       <h2>Produits souhaités</h2>
-      <p>Choisissez vos haltères jusqu'à 30 kg et disques jusqu’à 25 kg</p>
+      <p style="margin-bottom: 1rem;">
+        Minimum de commande : 50 kg. Vous pouvez mixer haltères (jusqu’à 30 kg), disques (jusqu’à 25 kg)
+        et kettlebells (jusqu’à 32 kg).
+      </p>
 
       <table>
         <thead>
@@ -52,5 +61,9 @@
       <button type="submit" class="submit-btn">Envoyer la demande</button>
     </form>
   </section>
+
+  <footer>
+    <p>&copy; 2025 Nathan | Matériel de musculation - Haute-Savoie</p>
+  </footer>
 </body>
 </html>

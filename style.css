@@ -206,4 +206,12 @@
     transform: scale(1.03);
     cursor: pointer;
   }
+  .saut-de-ligne {
+    margin-top: 2rem;
+  }
+  .produit.new-row {
+    grid-column: 1 / 2;
+    margin-top: 2rem;
+  }
+  
   

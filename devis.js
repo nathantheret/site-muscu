@@ -10,18 +10,24 @@ const prixHalteres = {
   25: 52.5, 27.5: 55, 30: 60
 };
 
-
-
-
 const prixDisques = {
   5: 12.5, 10: 24, 15: 34.5, 20: 44, 25: 52.5
 };
 
+const prixKettlebells = {
+  4: 12, 6: 18, 8: 24, 12: 34.8, 16: 46.4,
+  20: 56, 24: 67.2, 28: 75.6, 32: 86.4
+};
+
 const ordreHalteres = [2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30];
 const ordreDisques = [5, 10, 15, 20, 25];
+const ordreKettlebells = [4, 6, 8, 12, 16, 20, 24, 28, 32];
 
 function getPrix(produit, poids) {
-  const map = produit === 'halteres' ? prixHalteres : prixDisques;
+  let map;
+  if (produit === 'halteres') map = prixHalteres;
+  else if (produit === 'disques') map = prixDisques;
+  else if (produit === 'kettlebells') map = prixKettlebells;
   return map[poids] || 0;
 }
 
@@ -33,6 +39,7 @@ function createRow() {
   produitSelect.innerHTML = `
     <option value="halteres">Haltères</option>
     <option value="disques">Disques</option>
+    <option value="kettlebells">Kettlebells</option>
   `;
   produitCell.appendChild(produitSelect);
 
@@ -66,7 +73,11 @@ function createRow() {
 
   function updatePoidsOptions() {
     const selected = produitSelect.value;
-    const ordre = selected === 'halteres' ? ordreHalteres : ordreDisques;
+    let ordre = [];
+    if (selected === 'halteres') ordre = ordreHalteres;
+    else if (selected === 'disques') ordre = ordreDisques;
+    else if (selected === 'kettlebells') ordre = ordreKettlebells;
+
     poidsSelect.innerHTML = "";
     ordre.forEach(p => {
       const opt = document.createElement("option");
@@ -132,8 +143,8 @@ commandeForm.addEventListener("submit", async function (e) {
 
   const { total, totalPoids, fraisLivraison } = updateTotal();
 
-  if (totalPoids <= 0) {
-    alert("Merci de demander un minimum de poids pour établir un devis.");
+  if (totalPoids < 50) {
+    alert("Le minimum de commande est de 50 kg. Merci d'ajuster votre demande.");
     return;
   }
 
