@@ -2,7 +2,10 @@ const commandeBody = document.getElementById("commandeBody");
 const totalPrix = document.getElementById("totalPrix");
 const livraison = document.getElementById("livraison");
 const commandeForm = document.getElementById("commandeForm");
-const detailsHidden = document.getElementById("detailsHidden");
+
+const modeLivraison = document.getElementById("mode");
+const distanceInput = document.getElementById("distance");
+const livraisonBloc = document.getElementById("livraisonBloc");
 
 const prixHalteres = {
   2.5: 6.25, 5: 12.5, 7.5: 18, 10: 24, 12.5: 28.75,
@@ -24,11 +27,14 @@ const ordreDisques = [5, 10, 15, 20, 25];
 const ordreKettlebells = [4, 6, 8, 12, 16, 20, 24, 28, 32];
 
 function getPrix(produit, poids) {
-  let map;
-  if (produit === 'halteres') map = prixHalteres;
-  else if (produit === 'disques') map = prixDisques;
-  else if (produit === 'kettlebells') map = prixKettlebells;
-  return map[poids] || 0;
+  if (produit === 'halteres') return prixHalteres[poids] || 0;
+  if (produit === 'disques') return prixDisques[poids] || 0;
+  if (produit === 'kettlebells') return prixKettlebells[poids] || 0;
+  return 0;
+}
+
+function toggleLivraisonBloc() {
+  livraisonBloc.style.display = modeLivraison.value === "livraison" ? "block" : "none";
 }
 
 function createRow() {
@@ -121,7 +127,11 @@ function updateTotal() {
     totalPoids += poids * qty;
   });
 
-  const fraisLivraison = total >= 300 ? 0 : total * 0.10;
+  let fraisLivraison = 0;
+  if (modeLivraison.value === "livraison") {
+    const distance = parseFloat(distanceInput.value) || 0;
+    fraisLivraison = total >= 300 ? 0 : 8 + distance * 0.5;
+  }
 
   totalPrix.textContent = `💰 Total estimé : ${total.toFixed(2)} €`;
   livraison.textContent = fraisLivraison === 0
@@ -132,6 +142,12 @@ function updateTotal() {
 }
 
 document.querySelector(".add-line").addEventListener("click", createRow);
+modeLivraison.addEventListener("change", () => {
+  toggleLivraisonBloc();
+  updateTotal();
+});
+distanceInput.addEventListener("input", updateTotal);
+toggleLivraisonBloc();
 
 commandeForm.addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -139,7 +155,10 @@ commandeForm.addEventListener("submit", async function (e) {
   const nom = document.getElementById("nom").value;
   const email = document.getElementById("email").value;
   const tel = document.getElementById("telephone").value;
-  const ville = document.getElementById("ville").value;
+  const ville = modeLivraison.value === "livraison" ? document.getElementById("ville").value : "Non concerné (retrait)";
+  const mode = modeLivraison.value === "retrait" ? "Retrait à Clarafond-Arcine" : "Livraison à domicile";
+  const distance = distanceInput.value || "non précisée";
+  const infos = document.getElementById("infos")?.value || "";
 
   const { total, totalPoids, fraisLivraison } = updateTotal();
 
@@ -162,12 +181,18 @@ Email : ${email}
 Téléphone : ${tel}
 Ville : ${ville}
 
-Demande de devis :
+Mode choisi : ${mode}
+Distance estimée : ${distance} km
+
+Produits :
 ${details}
 
 Poids total : ${totalPoids} kg
 Total estimé : ${total.toFixed(2)} €
 Livraison estimée : ${fraisLivraison === 0 ? "offerte" : fraisLivraison.toFixed(2) + " €"}
+
+Informations supplémentaires :
+${infos || "Aucune"}
   `;
 
   const formData = new FormData();

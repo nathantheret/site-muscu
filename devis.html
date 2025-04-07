@@ -29,8 +29,22 @@
       <label for="telephone">Téléphone</label>
       <input type="tel" id="telephone" name="telephone" required />
 
-      <label for="ville">Ville de livraison</label>
-      <input type="text" id="ville" name="ville" required />
+      <label for="mode">Mode de récupération</label>
+      <select id="mode" name="mode">
+        <option value="retrait">Retrait à Clarafond-Arcine</option>
+        <option value="livraison">Livraison à domicile</option>
+      </select>
+
+      <div id="livraisonBloc" style="display: none;">
+        <label for="ville">Ville de livraison</label>
+        <input type="text" id="ville" name="ville" />
+
+        <label for="distance">Distance estimée (en km, sans autoroute)</label>
+        <input type="number" id="distance" name="distance" min="0" placeholder="Ex : 15" />
+
+        <label for="infos">Informations supplémentaires (facultatif)</label>
+        <textarea id="infos" name="infos" rows="4" placeholder="Ex : accès difficile, horaires, autre..."></textarea>
+      </div>
 
       <h2>Produits souhaités</h2>
       <p style="margin-bottom: 1rem;">
