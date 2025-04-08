@@ -8,18 +8,18 @@ const distanceInput = document.getElementById("distance");
 const livraisonBloc = document.getElementById("livraisonBloc");
 
 const prixHalteres = {
-  2.5: 6.25, 5: 12.5, 7.5: 18, 10: 24, 12.5: 28.75,
-  15: 34.5, 17.5: 38.5, 20: 44, 22.5: 47.25,
-  25: 52.5, 27.5: 55, 30: 60
+  2.5: 6.5, 5: 13.0, 7.5: 18.75, 10: 25.0, 12.5: 30.0,
+  15: 36.0, 17.5: 40.25, 20: 46.0, 22.5: 49.5,
+  25: 55.0, 27.5: 57.75, 30: 63.0
 };
 
 const prixDisques = {
-  5: 12.5, 10: 24, 15: 34.5, 20: 44, 25: 52.5
+  5: 13.0, 10: 25.0, 15: 36.0, 20: 46.0, 25: 55.0
 };
 
 const prixKettlebells = {
-  4: 12, 6: 18, 8: 24, 12: 34.8, 16: 46.4,
-  20: 56, 24: 67.2, 28: 75.6, 32: 86.4
+  4: 12.4, 6: 18.6, 8: 24.8, 12: 36.0, 16: 48.0,
+  20: 58.0, 24: 69.6, 28: 78.4, 32: 89.6
 };
 
 const ordreHalteres = [2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30];
@@ -128,15 +128,18 @@ function updateTotal() {
   });
 
   let fraisLivraison = 0;
+
   if (modeLivraison.value === "livraison") {
     const distance = parseFloat(distanceInput.value) || 0;
-    fraisLivraison = total >= 300 ? 0 : 8 + distance * 0.5;
+    fraisLivraison = total >= 500 ? 0 : 8 + distance * 0.5;
+    livraison.textContent = fraisLivraison === 0
+      ? `🚚 Livraison offerte !`
+      : `🚚 Livraison estimée : ${fraisLivraison.toFixed(2)} €`;
+  } else {
+    livraison.textContent = "";
   }
 
   totalPrix.textContent = `💰 Total estimé : ${total.toFixed(2)} €`;
-  livraison.textContent = fraisLivraison === 0
-    ? `🚚 Livraison offerte !`
-    : `🚚 Livraison estimée : ${fraisLivraison.toFixed(2)} €`;
 
   return { total, totalPoids, fraisLivraison };
 }
@@ -155,8 +158,8 @@ commandeForm.addEventListener("submit", async function (e) {
   const nom = document.getElementById("nom").value;
   const email = document.getElementById("email").value;
   const tel = document.getElementById("telephone").value;
-  const ville = modeLivraison.value === "livraison" ? document.getElementById("ville").value : "Non concerné (retrait)";
   const mode = modeLivraison.value === "retrait" ? "Retrait à Clarafond-Arcine" : "Livraison à domicile";
+  const ville = modeLivraison.value === "livraison" ? document.getElementById("ville").value : "Non concerné (retrait)";
   const distance = distanceInput.value || "non précisée";
   const infos = document.getElementById("infos")?.value || "";
 
@@ -164,6 +167,11 @@ commandeForm.addEventListener("submit", async function (e) {
 
   if (totalPoids < 50) {
     alert("Le minimum de commande est de 50 kg. Merci d'ajuster votre demande.");
+    return;
+  }
+
+  if (modeLivraison.value === "livraison" && (!ville || !distanceInput.value)) {
+    alert("Merci de renseigner la ville et la distance estimée pour la livraison.");
     return;
   }
 
